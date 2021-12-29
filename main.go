@@ -67,7 +67,7 @@ func main() {
 			}
 			a2 := -bigDelta / (lambda1 * delta)
 			b2 := -bigDelta / (lambda2 * delta)
-			fmt.Printf("Эллипс: %f * x^2 + %f * y2 = 1", 1/a2, 1/b2)
+			fmt.Printf("Эллипс: %f * x^2 + %f * y2 = 1 \n", 1/a2, 1/b2)
 			fmt.Println("Линейный эксцентриситет с = ", math.Sqrt(a2-b2))
 		}
 	} else if delta < 0 {
