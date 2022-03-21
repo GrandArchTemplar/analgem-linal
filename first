@@ -1,0 +1,92 @@
+var
+  A: array[1..999, 1..999] of integer;{1-я матрица}
+  B: array[1..999, 1..999] of integer;{2-я матрица}
+  C: array[1..999, 1..999] of integer;{матрица суммы}
+  D: array[1..999, 1..999] of integer;{матрица произведения}
+  i, j, m1, n1, m2, n2, k: integer;
+
+begin
+  print('введите размерность 1 матрицы:');
+  read(n1);
+  read(m1);
+  print('введите размерность 2 матрицы:');
+  read(n2);
+  read(m2);
+  for i := 1 to n1 do
+    for j := 1 to m1 do
+      read(A[i, j]);  
+  {ввод 1 матрицы}
+  for i := 1 to n2 do
+    for j := 1 to m2 do
+      read(B[i, j]);  
+  {ввод 2 матрицы}
+  writeln;
+  for i := 1 to n1 do
+  begin
+    for j := 1 to m1 do
+      write(A[i, j], ' ');
+    writeln();
+  end;
+  writeln();
+  {вывод 1 матрицы}
+  for i := 1 to n2 do
+  begin
+    for j := 1 to m2 do
+      write(B[i, j], ' ');
+    writeln();
+  end; 
+  writeln();
+  {матрицы выведены на экран}
+  begin
+    if (m1 = m2) and (n1 = n2) then
+      writeln('матрицы можно сложить.');
+    writeln();
+    if m1 = n2 then
+    begin
+      writeln('матрицы можно перемножить.');
+      writeln();
+    end
+    else
+      write('размерность не подходит');
+  end;
+  {сумматор}
+  if (m1 = m2) and (n1 = n2) then
+  begin
+    writeln('матрица суммы');
+    for i := 1 to n1 do
+    begin
+      for j := 1 to m1 do
+        C[i, j] := A[i, j] + B[i, j];  
+      {найдена сумма}
+    end;
+    writeln();
+    for i := 1 to n1 do
+    begin
+      for j := 1 to m1 do
+        write(C[i, j], ' ');
+      writeln();
+    end;
+    writeln();
+  end;
+  {умножитель матриц}
+  if m1 = n2 then
+  begin
+    for i := 1 to n1 do
+    begin
+      for j := 1 to m2 do
+      begin
+        for k := 1 to n2 do
+          D[i, j] := D[i, j] + (A[i, k] * B[k, j])
+      end;
+    end;
+    {найдено произведение}
+    writeln('матрица произведения:');
+    for i := 1 to n1 do
+    begin
+      for j := 1 to m2 do
+        write(D[i, j], ' ');
+      writeln();
+    end;
+    writeln();
+  end
+end.
