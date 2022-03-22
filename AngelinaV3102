@@ -1,0 +1,65 @@
+#A=[[1,2,3],[4,5,6],[7,8,9]]
+#B=[[1,2,3],[4,5,6],[7,8,9]]
+
+#ввод
+print('Введите количество строк первой матрицы и нажмите enter')
+rowsA = int(input())
+A = []
+print('Вводите числа первой матрицы через пробел, для перехода на новую строку, нажмите enter')
+for _ in range(rowsA):
+    elem = [float(i) for i in input().split()]
+    A.append(elem)
+print('Введите количество строк второй матрицы и нажмите enter')
+rowsB = int(input())
+B = []
+print('Вводите числа первой матрицы через пробел, для перехода на новую строку, нажмите enter')
+for _ in range(rowsB):
+    elem = [float(i) for i in input().split()]
+    B.append(elem)
+
+m = len(A)  # A: m × l(n)
+n = len(B)  # B: n × k
+k = len(B[0])
+l = len(A[0])
+summ = [[]*m for _ in range(m)]
+
+#сложение
+if len(A) == len(B) and len(A[0]) == len(B[0]):
+    print('Результат сложения матриц:')
+    for i in range(len(A)):
+        for j in range(len(A[i])):
+            summ[i].append(A[i][j] + B[i][j])
+    summax = 0
+    for x in summ:
+        for y in x:
+            if len(str(y)) > summax:
+                summax = len(str(y))
+    print(summax)
+
+    for r in range(m):
+        for c in range(k):
+            print(str(summ[r][c]).ljust(summax+1), end='')
+        print()
+else:
+    print('Нельзя сложить матрицы разных размеров...')
+
+#умножение
+if l == n:
+    print('Результат умножения матриц:')
+    C = [[None for  in range(k)] for  in range(m)]  # C: m × k
+
+    for i in range(m):
+        for j in range(k):
+            C[i][j] = sum(A[i][kk] * B[kk][j] for kk in range(n))
+    Cmax = 0
+    for x in C:
+        for y in x:
+            if len(str(y)) > Cmax:
+                Cmax = len(str(y))
+    print(Cmax)
+    for r in range(m):
+        for c in range(k):
+            print(str(C[r][c]).ljust(Cmax+1), end='')
+        print()
+else:
+    print('Такие матрицы нельзя умножить...')Hi 
