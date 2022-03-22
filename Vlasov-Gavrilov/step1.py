@@ -46,7 +46,7 @@ def summarizes_lists(lst1, lst2):
         LST = []
         for i in range(n1):
             lst = []
-            for j in range(n1):
+            for j in range(m1):
                 lst.append(lst1[i][j] + lst2[i][j])
             LST.append(lst)
         return LST
