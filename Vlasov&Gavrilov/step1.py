@@ -40,7 +40,9 @@ def summarizes_lists(lst1, lst2):
     :return: Конечный вложенный список
     """
     n1, m1, n2, m2 = len(lst1), len(lst1[0]), len(lst2), len(lst2[0])
-    if n1 == m1 == n2 == m2:
+    if n1 != n2 or m1 != m2:
+        return "Сложить не получится :( размерности матриц не равны"
+    else:
         LST = []
         for i in range(n1):
             lst = []
@@ -48,8 +50,6 @@ def summarizes_lists(lst1, lst2):
                 lst.append(lst1[i][j] + lst2[i][j])
             LST.append(lst)
         return LST
-    else:
-        return "Сложить не получится :( размерности матриц не равны"
 
 
 def converts_list_to_matrix(lst, name="Результат умножения: "):
