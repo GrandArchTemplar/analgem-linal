@@ -1,0 +1,26 @@
+if name == '__main__':
+    print('Введите количество строк в первой матрице')
+    n = int(input())
+    print('Введите первую матрицу')
+    a = []
+    for i in range(n):
+        a.append([int(j) for j in input().split()])
+    print('Введите количество строк во второй матрице')
+    n = int(input())
+    print('Введите вторую матрицу')
+    b = []
+    for i in range(n):
+        b.append([int(j) for j in input().split()])
+        if len(a[0]) == len(b):
+            break
+    print('Размеры матриц не совпадают, попробуйте заново')
+    m = len(a)
+    n = len(b)
+    k = len(b[0])
+    result = [[None for  in range(k)] for  in range(m)]
+    for i in range(m):
+        for j in range(k):
+            result[i][j] = sum(a[i][kk] * b[kk][j] for kk in range(n))
+    print('Результат произведения:')
+    for row in result:
+        print(' '.join([str(elem) for elem in row]))
