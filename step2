@@ -1,0 +1,168 @@
+#include <iostream>
+#include <ctime>
+#include <clocale>
+#include <cmath>
+using namespace std;
+int ** create_matrix(int n, int m)
+{
+    int **A = new int*[n];
+    for(int i = 0; i<n;i++)
+    {
+        A[i] = new int[m];
+    }
+    return A;
+}
+double ** create_matrix_double(int n, int m)
+{
+    double **A = new double *[n];
+    for(int i = 0; i<n;i++)
+    {
+        A[i] = new double [m];
+    }
+    return A;
+}
+void input_matrix(int **A, int n, int m){
+    for (int i=0; i < n;i++){
+        for (int j=0; j<m;j++){
+            cout << "Введите элемент с индексом =" << i+1 << j+1 << endl;
+            cin >> A[i][j];
+        }
+    }
+}
+void input_matrix_double(double **A, int n, int m){
+    for (int i=0; i < n;i++){
+        for (int j=0; j<m;j++){
+            cout << "Введите элемент с индексом =" << i+1 << j+1 << endl;
+            cin >> A[i][j];
+        }
+    }
+}
+void input_matrix_special(int **A, int n, int m){
+    for (int i=0; i < n;i++){
+        for (int j=0; j<m;j++){
+            A[i][j] = 0;
+        }
+    }
+}
+void output_matrix(int **A, int n, int m){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cout << A[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+void output_matrix_double(double **A, int n, int m){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cout << A[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+void output_matrix_componly(int**A,int n, int y){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<y;j++){
+            cout << A[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+void sum_matrix(int **A,int **B, int **Res, int n, int m){
+    for (int i=0;i<n;i++)
+    {
+        for (int j=0;j<m;j++)
+        {
+            Res[i][j] += A[i][j] + B[i][j];
+        }
+    }
+}
+void comp_matrix(int **A,int **B,int **Res, int n, int m, int x, int y){
+    for (int i=0;i<n;i++)
+    {
+        for (int j=0;j<y;j++)
+        {
+            for(int k=0;k<m;k++)
+                Res[i][j] += A[i][k] * B[k][j];
+        }
+    }
+}
+template <typename T> void TransponMatrix(T**matr, T**tMatr, int n){
+    for (int i=0;i<n;i++)
+        for (int j=0;j<n;j++)
+            tMatr[j][i] = matr[i][j];
+}
+void Get_matr(int **matr, int n, int **temp_matr, int indRow, int indCol)
+{
+    int ki = 0;
+    for (int i = 0; i < n; i++){
+        if(i != indRow){
+            for (int j = 0, kj = 0; j < n; j++){
+                if (j != indCol){
+                    temp_matr[ki][kj] = matr[i][j];
+                    kj++;
+                }
+            }
+            ki++;
+        }
+    }
+}
+int Det(int **matr, int n)
+{
+    int temp = 0;   //временная переменная для хранения определителя
+    int k = 1;      //степень
+    if(n < 1){
+        cout<<"Не верный размер матрицы!!!" << endl;
+        return 0;
+    }
+    else if (n == 1)
+        temp = matr[0][0];
+    else if (n == 2)
+        temp = matr[0][0] * matr[1][1] - matr[1][0] * matr[0][1];
+    else{
+        for(int i = 0; i < n; i++){
+            int m = n - 1;
+            int **temp_matr = new int * [m];
+            for(int j = 0; j < m; j++)
+                temp_matr[j] = new int [m];
+            Get_matr(matr, n, temp_matr, 0, i);
+            temp = temp + k * matr[0][i] * Det(temp_matr, m);
+            k = -k;
+        }
+    }
+    return temp;
+}
+
+
+int main() {
+    setlocale(LC_ALL, "RUS");
+    srand((unsigned)time(NULL));
+    setlocale(0, "");
+    int n, det;
+    cout << "Введите размер матрицы: ";
+    cin >> n >> n;
+    int **A = create_matrix(n,n);
+    double **O = create_matrix_double(n,n);
+    double **TO = create_matrix_double(n,n);
+
+    input_matrix(A, n,n);
+    output_matrix(A,n, n);
+    det = Det(A, n);
+    cout << "Определитель матрицы = " << det << endl;
+    if(det){
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                int m = n - 1;
+                int **temp_matr = new int * [m];
+                for(int k = 0; k < m; k++)
+                    temp_matr[k] = new int[m];
+                Get_matr(A, n, temp_matr, i, j);
+                O[i][j] = pow(-1.0, i + j + 2) * Det(temp_matr, m) / det;
+            }
+        }
+    }
+    else
+    cout << "Т.к. определитель матрицы = 0,\nто матрица вырожденная и обратной не имеет!!!" << endl;
+    TransponMatrix(O, TO, n);
+    output_matrix_double(TO, n,n);
+}
