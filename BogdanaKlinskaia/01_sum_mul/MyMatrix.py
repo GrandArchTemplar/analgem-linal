@@ -1,4 +1,3 @@
-import math
 import sys
 
 
@@ -45,6 +44,11 @@ class MyMatrix:
                 for k in range(self.column_count):
                     ans[i][j] += self[i][k] * other[k][j]
         return MyMatrix(ans)
+    #обратная матрица
+    def mul(self, other: float):
+        return MyMatrix([[
+            self.matrix[i][j] * other
+            for j in range(self.column_count)] for i in range(self.str_count)])
 
     def size(self) -> tuple[int, int]:
         return self.str_count, self.column_count
@@ -69,6 +73,23 @@ class MyMatrix:
         for k in range(len(ans)):
             ans[k].pop(j)
         return MyMatrix(ans).det()
+
+    def transpose(self):
+        return MyMatrix([
+            [self.matrix[i][j] for i in range(self.str_count)]
+            for j in range(self.column_count)
+        ])
+
+    def adjugate_matrix(self):
+        return MyMatrix([[
+            self.algebraic_addition(i + 1, j + 1)
+            for j in range(self.column_count)] for i in range(self.str_count)]).transpose()
+
+    def inv(self):
+        det = self.det()
+        if det == 0:
+            raise ArithmeticError("Determinaте can't be zero")
+        return self.adjugate_matrix().mul(1 / det)
 
     def __getitem__(self, item):
         return self.matrix[item]
