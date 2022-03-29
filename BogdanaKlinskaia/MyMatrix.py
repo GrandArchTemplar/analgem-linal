@@ -3,7 +3,7 @@ import sys
 
 class MyMatrix:
     @staticmethod
-    def readmatrix(input=sys.stdin, output=sys.stdout, erroutput=sys.stderr):
+    def read_matrix(input=sys.stdin, output=sys.stdout, erroutput=sys.stderr):
         print(
             "Введите кол-во строк (целое число) в матрице, нажмите eneter, затем введите строки матрицы, разделяя столбцы пробелом, а строки enter-ом:",
             file=output)
@@ -22,6 +22,10 @@ class MyMatrix:
         return MyMatrix(matrix)
 
     def __init__(self, matrix: list[list[float]]):
+        m = max([len(matrix[i]) for i in range(len(matrix))])
+        n = min([len(matrix[i]) for i in range(len(matrix))])
+        if m != n:
+            raise MyMatrix.SizeMatrixException("Matrix was broken((:")
         self.str_count = len(matrix)
         self.column_count = len(matrix[0])
         self.matrix = matrix
@@ -44,7 +48,7 @@ class MyMatrix:
                 for k in range(self.column_count):
                     ans[i][j] += self[i][k] * other[k][j]
         return MyMatrix(ans)
-    #обратная матрица
+
     def mul(self, other: float):
         return MyMatrix([[
             self.matrix[i][j] * other
@@ -85,10 +89,11 @@ class MyMatrix:
             self.algebraic_addition(i + 1, j + 1)
             for j in range(self.column_count)] for i in range(self.str_count)]).transpose()
 
+    #обратная матрица
     def inv(self):
         det = self.det()
         if det == 0:
-            raise ArithmeticError("Determinaте can't be zero")
+            raise ArithmeticError("Determinant can't be zero")
         return self.adjugate_matrix().mul(1 / det)
 
     def __getitem__(self, item):
