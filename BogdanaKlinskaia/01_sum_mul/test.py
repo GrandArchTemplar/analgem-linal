@@ -30,6 +30,36 @@ class TestMulMatrix(unittest.TestCase):
         ans = MyMatrix([[34, 33], [-45, 13]])
         self.assertMatrixEqual(ans, m1 * m2)
 
+class TestDetMatrix(unittest.TestCase):
+    def testSimple(self):
+        m1 = MyMatrix([[3, 5, 7, 8], [-1, 7, 0, 1], [0, 5, 3, 2], [1, -1, 7, 4]])
+        self.assertEqual(122, m1.det())
+
+
+class TestTransformMatrix(unittest.TestCase):
+    def assertMatrixEqual(self, first: MyMatrix, second: MyMatrix):
+        self.assertEqual(second.size(), first.size())
+        for i in range(len(first[0])):
+            for j in range(len(first[1])):
+                self.assertAlmostEqual(first[i][j], second[i][j])
+
+    def testSimple(self):
+        m1 = MyMatrix([[2, 5, 4], [7, -3, 9]])
+        ans = MyMatrix([[2, 7], [5, -3], [4, 9]])
+        self.assertMatrixEqual(ans, m1.transpose())
+
+class TestInvMatrix(unittest.TestCase):
+    def assertMatrixEqual(self, first: MyMatrix, second: MyMatrix):
+        self.assertEqual(second.size(), first.size())
+        for i in range(len(first[0])):
+            for j in range(len(first[1])):
+                self.assertAlmostEqual(first[i][j], second[i][j])
+
+    def testSimple(self):
+        m1 = MyMatrix([[2, 3], [-1, 1]])
+        ans = MyMatrix([[0.2, -0.6], [0.2, 0.4]])
+        self.assertMatrixEqual(ans, m1.inv())
+
 
 if __name__ == '__main__':
     unittest.main()
