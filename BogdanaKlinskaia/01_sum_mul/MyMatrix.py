@@ -1,3 +1,4 @@
+import math
 import sys
 
 
@@ -48,6 +49,27 @@ class MyMatrix:
     def size(self) -> tuple[int, int]:
         return self.str_count, self.column_count
 
+    # вычисляет определитель матрицы
+    def det(self) -> float:
+        if self.column_count != self.str_count:
+            raise MyMatrix.SizeMatrixException("The matrix must be square")
+        if self.column_count == 1:
+            return self[0][0]
+        return sum([
+            self.matrix[0][i] * self.algebraic_addition(1, i + 1)
+            for i in range(self.column_count)])
+
+    def algebraic_addition(self, i: int, j: int) -> float:  # нумерация координат с 1
+        return ((-1) ** (i + j)) * self.minor(i, j)
+
+    def minor(self, i: int, j: int) -> float:
+        i, j = i - 1, j - 1  # смещение от человеческий координат (нумерация с 0, а не 1)
+        ans = [self.matrix[i].copy() for i in range(self.str_count)]
+        ans.pop(i)
+        for k in range(len(ans)):
+            ans[k].pop(j)
+        return MyMatrix(ans).det()
+
     def __getitem__(self, item):
         return self.matrix[item]
 
@@ -66,4 +88,4 @@ class MyMatrix:
 
 if __name__ == '__main__':
     m = MyMatrix([[1, 0], [0, 1]])
-    print(m * m)
+    print(m.det())
