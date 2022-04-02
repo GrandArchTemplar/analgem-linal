@@ -3,6 +3,7 @@ def reading_matrix():
     Считывает матрицу и записывает ее в двумерный список
     :return: Сформированный список и его длинну
     """
+    print("Введите строки матрицы через пробел")
     lst = []
     for i in range(3):
         lst.append(list(map(int, input(f"i = {i + 1}: ").split()))[:3])
