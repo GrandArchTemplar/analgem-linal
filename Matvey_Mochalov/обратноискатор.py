@@ -12,8 +12,7 @@ else:
         p = 0
         if s > 0:
             print("Cледующая строка ")
-        while c < eliments:  # элементы в строк
-            # ах
+        while c < eliments:  # элементы в строках
             p = float(input("Введите число в строке "))
             a.insert(c, p)
             c += 1
