@@ -1,6 +1,7 @@
 def reading_matrix():
     """
     Считывает матрицу и записывает ее в двумерный список
+    :param type: Тип элементов
     :return: Сформированный список и его длинну
     """
     lst = []
@@ -69,7 +70,7 @@ def find_x1_and_x2(lst, L, n):
             x2 = (L - lst[0][0]) / lst[0][1] * x1
         else:
             x1, x2 = 0, 0
-    return round(x1, n), round(x2, n)
+    return round(x1, n) if x1 % 1 != 0.0 else int(x1), round(x2, n) if x2 % 1 != 0.0 else int(x2)
 
 
 def print_winds():
@@ -81,11 +82,11 @@ def print_winds():
     if find_roots(lst):
         L1, L2 = find_roots(lst)
         if find_x1_and_x2(lst, L1, n):
-            print(f"\u03BB1={round(L1, n)} {list(find_x1_and_x2(lst, L1, n))}")
+            print(f"\u03BB1={round(L1, n) if L1 % 1 != 0.0 else int(L1)} {list(find_x1_and_x2(lst, L1, n))}")
         else:
             print("\u03BB1=0")
         if find_x1_and_x2(lst, L2, n):
-            print(f"\u03BB2={round(L2, n)} {list(find_x1_and_x2(lst, L2, n))}")
+            print(f"\u03BB2={round(L2, n) if L2 % 1 != 0.0 else int(L2)} {list(find_x1_and_x2(lst, L2, n))}")
         else:
             print("\u03BB2=0")
     else:
