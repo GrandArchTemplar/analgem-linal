@@ -60,4 +60,4 @@ def find_and_print_charact_eq(lst):
 
 matrix = reading_matrix()
 print_matrix(matrix)
-find_and_print_charact_eq(matrix)
+find_charact(matrix)
