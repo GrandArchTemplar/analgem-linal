@@ -3,10 +3,15 @@ def reading_matrix():
     Считывает матрицу и записывает ее в двумерный список
     :return: Сформированный список и его длинну
     """
-    lst = []
+    LST = []
     for i in range(3):
-        lst.append(list(map(int, input(f"i = {i + 1}: ").split()))[:3])
-    return lst
+        lst = []
+        lval = list(map(float, input(f"i = {i + 1}: ").split()))[:3]
+        for j in range(3):
+            value = lval[j]
+            lst.append(value if value % 1 != 0.0 else int(value))
+        LST.append(lst)
+    return LST
 
 
 def print_matrix(lst):
@@ -29,24 +34,28 @@ def find_and_print_charact_eq(lst):
     Находит и выводит характеристическое уравнение для матрицы 3x3
     :param lst: Входной двумерный список
     """
+    round_up = int(input("Введите до какого знака округлять: "))
     a = - 1
     b = + lst[0][0] + lst[1][1] + lst[2][2]
-    c = - lst[0][0] * lst[1][1] - lst[0][0] * lst[2][2] - lst[1][1] * lst[2][2]\
+    c = - lst[0][0] * lst[1][1] - lst[0][0] * lst[2][2] - lst[1][1] * lst[2][2] \
         + lst[0][1] * lst[1][0] + lst[0][2] * lst[2][0] + lst[1][2] * lst[2][1]
-    d = + lst[0][0] * lst[1][1] * lst[2][2] + lst[0][1] * lst[1][2] * lst[2][0] + lst[0][2] * lst[1][0] * lst[2][1]\
+    d = + lst[0][0] * lst[1][1] * lst[2][2] + lst[0][1] * lst[1][2] * lst[2][0] + lst[0][2] * lst[1][0] * lst[2][1] \
         - lst[0][2] * lst[1][1] * lst[2][0] - lst[1][2] * lst[0][0] * lst[2][1] - lst[0][1] * lst[2][2] * lst[1][0]
     print("Ваше уравнение")
-    for i in a, b, c, d:
-        if i == 0:
+    i = 0
+    for value in a, b, c, d:
+        value = round(value, round_up) if value % 1 != 0.0 else int(value)
+        if value == 0:
             continue
-        elif i == a:
+        elif i == 0:
             print(f"- \u03BB\u00B3", end=" ")
-        elif i == b:
-            print(f"- {abs(b)}\u03BB\u00B2", end=" ") if b < 0 else print(f"+ {b}\u03BB\u00B2", end=" ")
-        elif i == c:
-            print(f"- {abs(b)}\u03BB", end=" ") if c < 0 else print(f"+ {b}\u03BB", end=" ")
+        elif i == 1:
+            print(f"- {abs(value)}\u03BB\u00B2", end=" ") if value < 0 else print(f"+ {value}\u03BB\u00B2", end=" ")
+        elif i == 2:
+            print(f"- {abs(value)}\u03BB", end=" ") if value < 0 else print(f"+ {value}\u03BB", end=" ")
         else:
-            print(f"- {abs(d)}", end=" ") if d < 0 else print(f"+ {d}", end=" ")
+            print(f"- {abs(value)}", end=" ") if value < 0 else print(f"+ {value}", end=" ")
+        i += 1
 
 
 matrix = reading_matrix()

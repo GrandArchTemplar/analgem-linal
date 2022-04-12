@@ -53,20 +53,9 @@ def find_minor(lst, i, j):
     minor = copy.deepcopy(lst)
     n = len(minor)
     for k in range(n):
-        del(minor[k][j])
-    del(minor[i])
+        del (minor[k][j])
+    del (minor[i])
     return minor
-    # LST = []
-    # n = len(lst)
-    # for k in range(n):
-    #     for s in range(n):
-    #         if k != i and s != j:
-    #             LST.append(lst[k][s])
-    # minor = []
-    # m = len(LST)
-    # for p in range(0, m, n - 1):
-    #     minor.append(LST[p: p + n - 1])
-    # return minor
 
 
 def find_alg_compl(lst, i, j):
@@ -104,7 +93,8 @@ def find_inv_matrix(lst, round_up=3):
         for i in range(n):
             line_LST = []
             for j in range(n):
-                line_LST.append(round(find_alg_compl(transp_lst, i, j) / find_det(lst), round_up))
+                value = find_alg_compl(transp_lst, i, j) / find_det(lst)
+                line_LST.append(round(value, round_up) if value % 1 != 0.0 else int(value))
             LST.append(line_LST)
         return LST
 
