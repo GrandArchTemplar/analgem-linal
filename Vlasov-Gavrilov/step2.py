@@ -71,15 +71,15 @@ def find_alg_compl(lst, i, j):
     return alg_compl
 
 
-def find_inv_matrix(lst, round_up=3):
+def find_inv_matrix(lst):
     """
     Находит обратную матрицу к переданной матрице - двумерному списку
     :param lst: Входной двумерный список
-    :param round_up: Количество знаков после запятой
     :return: Обратная матрица - двумерный список
     """
     n = len(lst)
     m = len(lst[0])
+    round_up = int(input("Введите до какого знака округлять: "))
     for line_lst in lst:
         if len(line_lst) != m:
             return "Почему строки разной длины?"

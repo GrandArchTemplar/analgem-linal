@@ -6,7 +6,7 @@ def reading_matrix():
     LST = []
     for i in range(3):
         lst = []
-        lval = list(map(float, input(f"i = {i + 1}: ").split()))[:3]
+        lst_val = list(map(float, input(f"i = {i + 1}: ").split()))[:3]
         for j in range(3):
             value = lval[j]
             lst.append(value if value % 1 != 0.0 else int(value))
