@@ -1,4 +1,5 @@
 import permutations
+from math import sqrt
 
 
 class Matrix:
@@ -108,6 +109,40 @@ class Matrix:
             s += 'x' * d
         return s
 
+    # Task 4
+    def eigenvalues(self):
+        if self.dim()[0] != self.dim()[1]:
+            raise ValueError('matrix is not square')
+        if self.dim()[0] != 2:
+            raise ValueError('size not equal to 2 is not supported')
+
+        coef = [-self.a[0][0] - self.a[1][1], self.det()]
+        d = coef[0] ** 2 - 4 * coef[1]
+        if d < 0:
+            return []
+        elif d == 0:
+            return [-coef[0] / 2]
+        else:
+            return [(-coef[0] + sqrt(d)) / 2, (-coef[0] - sqrt(d)) / 2]
+
+    # Task 4
+    def eigenpairs(self):
+        values = self.eigenvalues()
+        res = []
+        for c in values:
+            if self.a[0][1] != 0:
+                v = [1, (c - self.a[0][0]) / self.a[0][1]]
+            elif self.a[1][0] != 0:
+                v = [(c - self.a[1][1]) / self.a[1][0], 1]
+            elif self.a[0][0] == c:
+                v = [1, 0]
+            elif self.a[1][1] == c:
+                v = [0, 1]
+            else:
+                assert False  # should be impossible
+            res.append((c, v))
+        return res
+
     def __repr__(self):
         s = ''
         for row in self.a:
@@ -126,9 +161,14 @@ def read_matrix():
 
 m1 = read_matrix()
 # m2 = read_matrix()
-# print(m1 + m2)
-# print(m1 * m2)
+# print(m1 + m2)  # Task 1
+# print(m1 * m2)  # Task 1
 
-print(~m1)
-print(m1 * ~m1)
-print(m1.characteristic_polynom())
+print(~m1)  # Task 2
+print(m1 * ~m1)  # Correctness check
+
+# print(m1.characteristic_polynom())  # Task 3
+
+ep = m1.eigenpairs()  # Task 4
+for c, v in ep:
+    print(c, v)
