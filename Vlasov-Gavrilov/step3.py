@@ -19,7 +19,7 @@ def print_matrix(lst):
     Выводит матрицу
     :param lst: Входной двумерный список
     """
-    print("Ваша матЬрица")
+    print("Ваша матрица")
     lst_len = []
     for line_lst in lst:
         for value in line_lst:
