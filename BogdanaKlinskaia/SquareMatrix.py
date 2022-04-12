@@ -1,4 +1,5 @@
 import sys
+from math import sqrt
 
 from MyMatrix import MyMatrix
 from MyPolinom import MyPolinom
@@ -46,7 +47,30 @@ class SquareMatrix(MyMatrix):
             -1,
         ])
 
+    def eigen_values(self) -> list[float]:
+        assert self.n == 2, "eigen_values() написана только для матриц 2 на 2"
+        x = self.matrix
+        sq = sqrt(x[0][0] ** 2 - 2 * x[1][1] * x[0][0] + x[1][1] ** 2 + 4 * x[0][1] * x[1][0])
+        l1 = 0.5 * (x[0][0] + x[1][1] - sq)
+        if sq == 0:
+            return [l1]
+        return [l1, l1 + sq]
+
+    def eigen_vectors(self) -> list[list[float]]:
+        assert self.n == 2, "eigen_vectors() написана только для матриц 2 на 2"
+        if self.matrix[1][0] != 0:
+            l1, l2 = self.eigen_values()
+            l1 = -(l1 - self.matrix[0][0]) / self.matrix[1][0]
+            l2 = -(l1 - self.matrix[0][0]) / self.matrix[1][0]
+            return [[l1, 1], [l2, 1]]
+        else:
+            if self.matrix[0][0] != self.matrix[1][1]:
+                return [[1, 0], [self[0][1] / (self[1][1] - self[0][0]), 1]]
+            else:
+                return [[1, 0]]
+
 
 if __name__ == '__main__':
-    m = SquareMatrix.read_matrix(n=3)
-    print(m)
+    m = SquareMatrix.read_matrix(n=2)
+    print(m.eigen_values())
+    print(m.eigen_vectors())
