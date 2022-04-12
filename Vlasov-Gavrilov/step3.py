@@ -29,7 +29,7 @@ def print_matrix(lst):
         print(f"i = {i + 1}:", *list(map("{{:>{length}}}".format(length=max_len).format, lst[i])))
 
 
-def find_and_print_charact_eq(lst):
+def find_charact(lst):
     """
     Находит и выводит характеристическое уравнение для матрицы 3x3
     :param lst: Входной двумерный список
