@@ -113,5 +113,4 @@ def print_matrix(LST):
             print(*list(map('{{:>{length}}}'.format(length=max_len).format, line_LST)))
 
 
-print_matrix(find_inv_matrix(reading_matrix(), round_up=int(
-    input("Введите желаемое количество знаков после запятой у результата (число): "))))
+print_matrix(find_inv_matrix(reading_matrix()))
