@@ -1,0 +1,67 @@
+#include <iostream>
+#include <ctime>
+#include <clocale>
+#include <cmath>
+using namespace std;
+int ** create_matrix(int n, int m)
+{
+    int **A = new int*[n];
+    for(int i = 0; i<n;i++)
+    {
+        A[i] = new int[m];
+    }
+    return A;
+}
+double ** create_matrix_double(int n, int m)
+{
+    double **A = new double *[n];
+    for(int i = 0; i<n;i++)
+    {
+        A[i] = new double [m];
+    }
+    return A;
+}
+void input_matrix_double(double **A, int n, int m){
+    for (int i=0; i < n;i++){
+        for (int j=0; j<m;j++){
+            cout << "Введите элемент с индексом =" << i+1 << j+1 << endl;
+            cin >> A[i][j];
+        }
+    }
+}
+double Det2 (double a, double b, double c, double d){
+    return a*d-b*c;
+    }
+    double Det3 (double **arr)
+{
+    return  arr[0][0]*Det2(arr[1][1], arr[1][2], arr[2][1], arr[2][2]) - 
+            arr[0][1]*Det2(arr[1][0], arr[1][2], arr[2][0], arr[2][2]) +
+            arr[0][2]*Det2(arr[1][0], arr[1][1], arr[2][0], arr[2][1]);
+}
+
+int main() {
+setlocale(LC_ALL, "RUS");
+srand((unsigned)time(NULL));
+setlocale(0, "");
+int n,m;
+cin >> n >> m;
+double **arr = create_matrix_double(n,n);
+input_matrix_double(arr,n,n);
+double K[4];
+K[0] = -1;
+K[1] = arr[0][0] + arr[1][1] + arr[2][2];
+K[2] = -(Det2(arr[0][0], arr[0][1], arr[1][0], arr[1][1]) + 
+         Det2(arr[1][1], arr[1][2], arr[2][1], arr[2][2]) +
+         Det2(arr[0][0], arr[0][2], arr[2][0], arr[2][2]));
+K[3] = Det3(arr);
+    cout << "\nPolynomial:\n";
+    for (int i = 0; i<4 ; i++)
+    {   cout << fixed << K[i] << " X^" << 3-i;
+        if (i<3 && K[i+1] >0)
+            cout << " +";
+    }
+
+
+
+return 0;
+}
