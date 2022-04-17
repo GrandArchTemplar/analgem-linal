@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -14,6 +15,21 @@ struct Matrix
         cin>>height;
         cout<<"Columns count:";
         cin>>length;
+        body = new float* [height];
+        for(int i=0; i<height; i++)
+        {
+         body[i] = new float[length];
+            for(int j=0; j<length; j++)
+            {
+                cin>>body[i][j];
+            }
+        }
+    }
+
+    void SetBody(int m, int n)
+    {
+        height = m;
+        length = n;
         body = new float* [height];
         for(int i=0; i<height; i++)
         {
@@ -115,8 +131,9 @@ struct Matrix
                     }
                     ik++;
                 }
+                if(x%2==0) xx = 1;
+                else xx = -1;
                 ans += xx*m.body[0][x]*Det(nm);
-                xx = -xx;
                 for(int i=0; i<nm.height; i++)
                 {
                     delete[] nm.body[i];
@@ -216,8 +233,9 @@ struct Matrix
                         ik++;
                     }
                 }
+                if((x+y)%2==0) xx = 1;
+                else xx = -1;
                 ans.body[y][x] = xx*Det(nm)/d;
-                xx = -xx;
                 for(int i=0; i<nm.height; i++)
                 {
                     delete[] nm.body[i];
@@ -232,6 +250,28 @@ struct Matrix
     static Matrix Rev(Matrix m)
     {
         return Trans(Uni(m));
+    }
+
+    static void HP(Matrix m)
+    {
+        float d[9];
+        for(int i=0; i<9; i++)
+            d[i] = m.body[i/3][i%3];
+        int coefs[4];
+        coefs[0] = Det(m);
+        coefs[1] = d[5]*d[7]+d[1]*d[3]+d[2]*d[6]-d[0]*d[4]-d[0]*d[8]-d[4]*d[8];
+        coefs[2] = d[0]+d[4]+d[8];
+        coefs[3] = -1;
+        string s = "-xxx";
+
+        if(coefs[2]>0) s += "+" + to_string(coefs[2]) + "xx";
+        else if(coefs[2]<0) s += to_string(coefs[2]) + "xx";
+        if(coefs[1]>0) s += "+" + to_string(coefs[1]) + "x";
+        else if(coefs[1]<0) s += to_string(coefs[1]) + "x";
+        if(coefs[0]>0) s += "+" + to_string(coefs[0]);
+        else if(coefs[0]<0) s += to_string(coefs[0]);
+        cout<<s;
+        return;
     }
 
     ~Matrix()
@@ -251,9 +291,9 @@ struct Matrix
 int main()
 {
     int x = -1000;
-    while(x != 1 && x != 2 && x != 3)
+    while(x != 1 && x != 2 && x != 3 && x != 4)
     {
-        if(x == -1000) cout<<"Choose option: 1-sum 2-mult (multiki pokazhet (net)) 3-reverse:";
+        if(x == -1000) cout<<"Choose option: 1-sum 2-mult (multiki pokazhet (net)) 3-reverse 4-polynyam:";
         else cout<<"escsche raz";
         cin>>x;
         if(x == 1)
@@ -282,6 +322,13 @@ int main()
             m.SetBody();
             cout<<endl;
             Matrix::Rev(m).GetBody();
+        }
+        if(x == 4)
+        {
+            Matrix m = Matrix();
+            m.SetBody(3, 3);
+            cout<<endl;
+            Matrix::HP(m);
         }
     }
 }
