@@ -117,12 +117,12 @@ def find_P1_and_P2(matrix, invMatrix):
     """
     P1, P2 = [[0, 0], [0, 0]], [[0, 0], [0, 0]]
     P1[0][0], P1[1][0] = matrix[0][0] * invMatrix[0][0], matrix[1][0] * invMatrix[0][0]
-    P1[1][1], P1[0][1] = matrix[1][0] * invMatrix[0][1], matrix[0][0] *  invMatrix[0][1]
+    P1[1][1], P1[0][1] = matrix[1][0] * invMatrix[0][1], matrix[0][0] * invMatrix[0][1]
     P2[0][0], P2[1][0] = matrix[0][1] * invMatrix[1][0], matrix[1][1] * invMatrix[1][0]
-    P2[1][1], P2[0][1] = matrix[1][1] * invMatrix[1][1], matrix[0][1] *  invMatrix[1][1]
+    P2[1][1], P2[0][1] = matrix[1][1] * invMatrix[1][1], matrix[0][1] * invMatrix[1][1]
     return P1, P2
 
-    
+
 def print_matrix(matrix, number):
     """
     Выводит матрицу
