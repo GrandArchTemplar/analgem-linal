@@ -46,9 +46,7 @@ def find_x1_and_x2(initMatrix, L):
     :param L: Корень характеристического уравнения
     :return: Координаты x1 и x2
     """
-    if L == 0:
-        return False
-    elif initMatrix[0][1] == 0 and L - initMatrix[0][0] == 0:
+    if initMatrix[0][1] == 0 and L - initMatrix[0][0] == 0:
         if initMatrix[1][0] == 0 and L - initMatrix[1][1] == 0:
             x1, x2 = 2, 4
         elif initMatrix[1][0] == 0 and L - initMatrix[1][1] != 0:
@@ -143,7 +141,7 @@ def print_matrix(matrix, number):
 initMatrix = reading_matrix()
 if find_roots(initMatrix):
     L1, L2 = find_roots(initMatrix)
-    if find_x1_and_x2(initMatrix, L1) and find_x1_and_x2(initMatrix, L2):
+    if L1 != 0 or L2 != 0:
         matrix = composes_matrix_vectors(initMatrix, L1, L2)
         if find_inv_matrix(matrix):
             invMatrix = find_inv_matrix(matrix)
@@ -153,6 +151,6 @@ if find_roots(initMatrix):
         else:
             print("Определитель матрицы собственных векторов равен нулю")
     else:
-        print("Одно или оба собственных значения равен или равны нулю")
+        print("Оба собственных значения равны нулю")
 else:
     print("Нет рациональных собственных значений")
