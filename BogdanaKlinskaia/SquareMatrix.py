@@ -69,6 +69,19 @@ class SquareMatrix(MyMatrix):
             else:
                 return [[1, 0]]
 
+    def get_proectors(self) -> list:
+        t = MyMatrix(self.eigen_vectors()).transpose()
+        assert t.column_count == t.str_count, "Матрица должна быть квадратной"
+        s = t.inv()
+        ans = []
+        # for i in range(t.str_count):
+        #     clm = MyMatrix(t.get_column(i))
+        #     row = MyMatrix([t.get_row(i)])
+        #     print(row*clm)
+        #     ans.append(row*clm)
+        # return ans
+        return [MyMatrix(t.get_column(i)) * MyMatrix([s.get_row(i)]) for i in range(t.str_count)]
+
 
 if __name__ == '__main__':
     m = SquareMatrix.read_matrix(n=2)
