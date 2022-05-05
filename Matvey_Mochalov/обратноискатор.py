@@ -57,9 +57,14 @@ def minor_matr(A):
     M = [[0 for i in range(len(A))] for i in range(len(A))]
     for i in range(len(A)):
         for j in range(len(A)):
-            Mij = det(minor(A, i, j))
-            M[i][j] = Mij * ((-1) ** (i+j))
+            if len((minor(A, i, j))) >= 2:
+                Mij = det(minor(A, i, j))
+                M[i][j] = Mij * ((-1) ** (i+j))
+            else:
+                Mij = minor(A, i, j)[0][0]
+                M[i][j] = Mij
     return M
+
 #ранспониру.
 def zeros_matrix(rows, cols):
 # МАТРИЦА НУЛЕЙ РОВС СТРОКИ КОЛС СТОЛБЫ
