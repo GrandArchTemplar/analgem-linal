@@ -38,12 +38,12 @@ class MyMatrix:
         ] for i in range(self.str_count)])
 
     def __mul__(self, other):
-        if self.column_count != other.size()[1]:
+        if self.column_count != other.str_count:
             raise MyMatrix.SizeMatrixException(
                 "The number of columns of the matrix of the left argument must be equal to the number of columns of the matrix of the right argument")
-        ans = [([0] * self.column_count) for _ in range(self.str_count)]
+        ans = [([0] * other.column_count) for _ in range(self.str_count)]
         for i in range(self.str_count):
-            for j in range(self.column_count):
+            for j in range(other.column_count):
 
                 for k in range(self.column_count):
                     ans[i][j] += self[i][k] * other[k][j]
@@ -89,7 +89,7 @@ class MyMatrix:
             self.algebraic_addition(i + 1, j + 1)
             for j in range(self.column_count)] for i in range(self.str_count)]).transpose()
 
-    #обратная матрица
+    # обратная матрица
     def inv(self):
         det = self.det()
         if det == 0:
@@ -98,6 +98,14 @@ class MyMatrix:
 
     def __getitem__(self, item):
         return self.matrix[item]
+
+    def get_row(self, idx: int) -> list[float]:
+        assert 0 <= idx < self.str_count, "Not found row with number is idx"
+        return self.matrix[idx]
+
+    def get_column(self, idx: int) -> list[list[float]]:
+        assert 0 <= idx < self.column_count, "Not found column with number is idx"
+        return [[self[i][idx]] for i in range(self.str_count)]
 
     def __str__(self):
         str = ""
