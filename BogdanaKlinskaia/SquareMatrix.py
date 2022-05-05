@@ -73,13 +73,6 @@ class SquareMatrix(MyMatrix):
         t = MyMatrix(self.eigen_vectors()).transpose()
         assert t.column_count == t.str_count, "Матрица должна быть квадратной"
         s = t.inv()
-        ans = []
-        # for i in range(t.str_count):
-        #     clm = MyMatrix(t.get_column(i))
-        #     row = MyMatrix([t.get_row(i)])
-        #     print(row*clm)
-        #     ans.append(row*clm)
-        # return ans
         return [MyMatrix(t.get_column(i)) * MyMatrix([s.get_row(i)]) for i in range(t.str_count)]
 
 
