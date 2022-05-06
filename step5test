@@ -1,0 +1,123 @@
+#include <iostream>
+#include <ctime>
+#include <clocale>
+#include <cmath>
+#include <Windows.h>
+using namespace std;
+int ** create_matrix(int n, int m)
+{
+    int **A = new int*[n];
+    for(int i = 0; i<n;i++)
+    {
+        A[i] = new int[m];
+    }
+    return A;
+}
+double ** create_matrix_double(int n, int m)
+{
+    double **A = new double *[n];
+    for(int i = 0; i<n;i++)
+    {
+        A[i] = new double [m];
+    }
+    return A;
+}
+void input_matrix_double(double **A, int n, int m){
+    setlocale(0,"");
+    SetConsoleCP(866); SetConsoleOutputCP(866);
+    for (int i=0; i < n;i++){
+        for (int j=0; j<m;j++){
+            cout << "Put there element with index(VVEDI ELEMENT) =" << i+1 << j+1 << endl;
+            cin >> A[i][j];
+        }
+    }
+}
+double Det2 (double **arr){
+    return arr[0][0] * arr[1][1] - arr[0][1]*arr[1][0];
+}
+void output_matrix_double(double **A, int n, int m){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cout << A[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+
+int main() {
+    setlocale(LC_ALL, "RUS");
+    srand((unsigned) time(NULL));
+    setlocale(0, "");
+    int n, m, a, b, c, D, x1, x2, y1, y2, y3, y4;
+    cout << "VVEDI RAZMER" << endl;
+    cin >> n >> m;
+    double **arr = create_matrix_double(n, n);
+    input_matrix_double(arr, n, n);
+    a = 1;
+    b = -1 * (arr[0][0] + arr[1][1]);
+    c = arr[0][0] * arr[1][1] - arr[0][1] * arr[1][0];
+    D = pow(b, 2) - 4 * a * c;
+    x1 = (-b + sqrt(D)) / (2 * a);
+    x2 = (-b - sqrt(D)) / (2 * a);
+    int det1 = (arr[0][0] - x1) * (arr[1][1] - x1) - arr[0][1] * arr[1][0];
+    int det2 = (arr[0][0] - x2) * (arr[1][1] - x2) - arr[0][1] * arr[1][0];
+    if ((arr[0][1] == 0) and (arr[1][0] == 0)){
+        if (arr[0][0] != x1) {
+            y1 = 0;
+            y2 = rand() % 100;
+        }
+        if (arr[1][1] != x1) {
+            y1 = rand() % 100;
+            y2 = 0;
+        }
+        if (arr[0][0] != x2) {
+            y3 = 0;
+            y4 = rand() % 100;
+        }
+        if (arr[1][1] != x2) {
+            y3 = rand() % 100;
+            y4 = 0;
+        }}
+    if ((arr[0][1] != 0) and (arr[1][0] != 0)) {
+        y1 = 0;
+        y2 = 0;
+        y3 = 0;
+        y4 = 0;
+    }
+    double **obrat = create_matrix_double(2,2);
+    double **matr = create_matrix_double(2, 2);
+    matr[0][0] = y1;
+    matr[0][1] = y3;
+    matr[1][0] = y2;
+    matr[1][1] = y4;
+    double detmatr = Det2(matr);
+    double m00,m01,m10,m11;
+    m00 = matr[1][1];
+    m01 = -1 * matr[1][0];
+    m10 = -1 * matr[0][1];
+    m11 = matr[0][0];
+
+    obrat[0][0] = m00/detmatr;
+    obrat[1][0] = m01/detmatr;
+    obrat[0][1] = m10/detmatr;
+    obrat[1][1] = m11/detmatr;
+
+    double **proj1 = create_matrix_double(2,2);
+    double **proj2 = create_matrix_double(2,2);
+
+    proj1[0][0] = matr[0][0] * obrat[0][0];
+    proj1[0][1] = matr[0][0] * obrat[0][1];
+    proj1[1][0] = matr[1][0] * obrat[0][0];
+    proj1[1][1] = matr[1][0] * obrat[0][1];
+
+    proj2[0][0] = matr[0][1] * obrat[1][0];
+    proj2[0][1] = matr[0][1] * obrat[1][1];
+    proj2[1][0] = matr[1][1] * obrat[1][0];
+    proj2[1][1] = matr[1][1] * obrat[1][1];
+
+    output_matrix_double(proj1,2,2);
+    output_matrix_double(proj2,2,2);
+
+    return 0;
+}
