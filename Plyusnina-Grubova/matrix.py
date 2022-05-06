@@ -1,5 +1,6 @@
 import permutations
 from math import sqrt
+from numbers import Number
 
 
 class Matrix:
@@ -25,18 +26,29 @@ class Matrix:
                 res[-1].append(self.a[i][j] + other.a[i][j])
         return Matrix(res)
 
-    # Task 1
     def __mul__(self, other):
-        if self.dim()[1] != other.dim()[0]:
-            raise ValueError('matrices are incompatible for multiplication')
-        res = []
-        for i in range(len(self.a)):
-            res.append([])
-            for j in range(len(other.a[0])):
-                res[-1].append(0)
-                for k in range(len(other.a)):
-                    res[-1][-1] += self.a[i][k] * other.a[k][j]
-        return Matrix(res)
+        # Task 1
+        if isinstance(other, Matrix):
+            if self.dim()[1] != other.dim()[0]:
+                raise ValueError('matrices are incompatible for multiplication')
+            res = []
+            for i in range(len(self.a)):
+                res.append([])
+                for j in range(len(other.a[0])):
+                    res[-1].append(0)
+                    for k in range(len(other.a)):
+                        res[-1][-1] += self.a[i][k] * other.a[k][j]
+            return Matrix(res)
+        # Task 5
+        elif isinstance(other, Number):
+            res = []
+            for i in range(len(self.a)):
+                res.append([])
+                for j in range(len(self.a[0])):
+                    res[-1].append(self.a[i][j] * other)
+            return Matrix(res)
+        else:
+            raise ValueError('unsupported multiplication')
 
     # Task 2
     def det(self):
@@ -143,6 +155,23 @@ class Matrix:
             res.append((c, v))
         return res
 
+    # Task 5
+    def projectors(self):
+        pairs = self.eigenpairs()
+        if len(pairs) == 2:
+            res = []
+            for i in range(2):
+                ci, cj = pairs[i][0], pairs[i - 1][0]
+                m = self + Matrix([[-cj, 0], [0, -cj]])
+                res.append(m * (1 / (ci - cj)))
+            return res
+        elif len(pairs) == 1:
+            c, v = pairs[0]
+            m = Matrix([v, [0, 0]])
+            return [m.trans()]
+        else:
+            return []
+
     def __repr__(self):
         s = ''
         for row in self.a:
@@ -164,11 +193,15 @@ m1 = read_matrix()
 # print(m1 + m2)  # Task 1
 # print(m1 * m2)  # Task 1
 
-print(~m1)  # Task 2
-print(m1 * ~m1)  # Correctness check
+# print(~m1)  # Task 2
+# print(m1 * ~m1)  # Correctness check, should be E
 
 # print(m1.characteristic_polynom())  # Task 3
 
-ep = m1.eigenpairs()  # Task 4
-for c, v in ep:
-    print(c, v)
+# ep = m1.eigenpairs()  # Task 4
+# for c, v in ep:
+#     print(c, v)
+
+proj = m1.projectors()  # Task 5
+for p in proj:
+    print(p)
