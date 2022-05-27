@@ -4,7 +4,7 @@
 
 using namespace std;
 
-pair<float, float> roots2(float a, float b, float c)
+pair<float, float> roots2(float a, float b, float c) //корни квадратного трехчлена
 {
     float d = b*b-4*a*c;
     if (d<0)
@@ -15,7 +15,7 @@ pair<float, float> roots2(float a, float b, float c)
         return pair<float, float> ((-b-sqrt(d))/2/a, (-b+sqrt(d))/2/a);
 }
 
-pair<float, float> sys(float a, float b, float c, float d)
+pair<float, float> sys(float a, float b, float c, float d) //система уравнений
 {
     float x, y;
     if(abs(b)<0.000001 && abs(c)<0.000001)
@@ -148,7 +148,7 @@ struct Matrix
         }
     }
 
-    void SetBodyForSP(pair <float, float> v1, pair <float, float> v2)
+    void SetBodyForSP(pair <float, float> v1, pair <float, float> v2) //отдельный ввод для поиска проекторов
     {
         height = 2;
         length = 2;
@@ -180,7 +180,7 @@ struct Matrix
         if(height != m2.height || length != m2.length)
         {
             cout<<"ERROR (sum)";
-            throw exception();
+            exit(0);
         }
         Matrix ans = Matrix();
         ans.height = height;
@@ -202,7 +202,7 @@ struct Matrix
         if(length != m2.height)
         {
             cout<<"ERROR (mult)";
-            throw exception();
+            exit(1);
         }
         Matrix ans = Matrix();
         ans.length = m2.length;
@@ -222,12 +222,27 @@ struct Matrix
         return ans;
     }
 
-    static float Det(Matrix m)
+    bool operator==(Matrix m2)
+    {
+        if(height != m2.height || length != m2.length)
+            return false;
+        for(int i=0; i<height; i++)
+        {
+            for(int j=0; j<length; j++)
+            {
+                if(body[i][j] != m2.body[i][j])
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    static float Det(Matrix m) //определитель
     {
         if(m.height != m.length)
         {
             cout<<"ERROR (Det)";
-            throw exception();
+            exit(2);
         }
         if(m.height != 1)
         {
@@ -270,7 +285,7 @@ struct Matrix
         }
     }
 
-    static Matrix Trans(Matrix m)
+    static Matrix Trans(Matrix m) //транспонированная
     {
         Matrix ans = Matrix();
         ans.height = m.length;
@@ -289,12 +304,12 @@ struct Matrix
         return ans;
     }
 
-    static Matrix Uni(Matrix m)
+    static Matrix Uni(Matrix m) //союзная
     {
         if(m.height != m.length)
         {
-            cout<<"ERROR";
-            throw exception();
+            cout<<"ERROR (Uni)";
+            exit(3);
         }
         if(m.height == 1)
         {
@@ -329,8 +344,8 @@ struct Matrix
         float d = Det(m);
         if (d == 0)
         {
-            cout<<"ERROR";
-            throw exception();
+            cout<<"ERROR (Uni)";
+            exit(4);
         }
 
         for(int y=0; y<m.height; y++)
@@ -369,12 +384,12 @@ struct Matrix
         return ans;
     }
 
-    static Matrix Rev(Matrix m)
+    static Matrix Rev(Matrix m) //обратная
     {
         return Trans(Uni(m));
     }
 
-    static void HP(Matrix m)
+    static void HP(Matrix m) //характеристический полином
     {
         float d[9];
         for(int i=0; i<9; i++)
@@ -396,7 +411,7 @@ struct Matrix
         return;
     }
 
-    static void SV(Matrix m)
+    static void SV(Matrix m) //собственные вектора
     {
         float a0 = m.body[0][0];
         float b0 = m.body[0][1];
@@ -409,7 +424,7 @@ struct Matrix
             if(roots.first == 666)
             {
                 cout<<"There are no sobstvennye vectors";
-                throw exception();
+                exit(5);
             }
             pair<float, float> ans = sys(a0-roots.first, -b0, c0, roots.first-d0);
             cout<<roots.first<<" ("<<ans.first<<", "<<ans.second<<")";
@@ -422,7 +437,7 @@ struct Matrix
         }
     }
 
-    static void SP(Matrix m)
+    static void SP(Matrix m) //собственные проекторы
     {
         float a0 = m.body[0][0];
         float b0 = m.body[0][1];
@@ -433,7 +448,7 @@ struct Matrix
         if(roots.first == roots.second)
         {
             cout<<"There are no adekvatnye sobstvennye proectors";
-            throw exception();
+            exit(6);
         }
         else
         {
@@ -469,6 +484,33 @@ struct Matrix
         }
     }
 
+    static void US(Matrix m) //унитарность и самосопряженность
+    {
+        if(Det(m) != 0 && Trans(m)==Rev(m))
+            cout<<"unitarnaya"<<endl;
+        else
+            cout<<"NEunitarnaya"<<endl;
+        if(Trans(m)==m)
+            cout<<"samosopryajonnaya"<<endl;
+        else
+            cout<<"NEsamosopryajonnaya"<<endl;
+    }
+
+    static int Trace(Matrix m) //скалярное произведение
+    {
+        if(m.height != m.length)
+        {
+            cout<<"ERROR (Trace)";
+            exit(7);
+        }
+        int s = 0;
+        for(int i=0; i<m.height; i++)
+        {
+            s+=m.body[i][i];
+        }
+        return s;
+    }
+
     ~Matrix()
     {
         for(int i=0; i<height; i++)
@@ -485,9 +527,9 @@ struct Matrix
 int main()
 {
     int x = -1000;
-    while(x != 1 && x != 2 && x != 3 && x != 4 && x != 5 && x != 6)
+    while(x != 1 && x != 2 && x != 3 && x != 4 && x != 5 && x != 6 && x != 7 && x != 8)
     {
-        if(x == -1000) cout<<"Choose option: 1-sum 2-mult (multiki pokazhet (net)) 3-reverse 4-polynyam 5-Victori 6-spector-prorector:";
+        if(x == -1000) cout<<"Choose option: 1-sum 2-mult (multiki pokazhet (net)) 3-reverse 4-polynyam 5-Victori 6-spector-prorector 7-unitarnost':";
         else cout<<"escsche raz";
         cin>>x;
         if(x == 1)
@@ -538,6 +580,12 @@ int main()
             cout<<endl;
             Matrix::SP(m);
         }
-
+        if(x == 7)
+        {
+            Matrix m = Matrix();
+            m.SetBody();
+            cout<<endl;
+            Matrix::US(m);
+        }
     }
 }
