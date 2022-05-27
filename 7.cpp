@@ -4,7 +4,7 @@
 
 using namespace std;
 
-pair<float, float> roots2(float a, float b, float c) //корни квадратного трехчлена
+pair<float, float> roots2(float a, float b, float c) //ГЄГ®Г°Г­ГЁ ГЄГўГ Г¤Г°Г ГІГ­Г®ГЈГ® ГІГ°ГҐГµГ·Г«ГҐГ­Г 
 {
     float d = b*b-4*a*c;
     if (d<0)
@@ -15,7 +15,7 @@ pair<float, float> roots2(float a, float b, float c) //корни квадратного трехчле
         return pair<float, float> ((-b-sqrt(d))/2/a, (-b+sqrt(d))/2/a);
 }
 
-pair<float, float> sys(float a, float b, float c, float d) //система уравнений
+pair<float, float> sys(float a, float b, float c, float d) //Г±ГЁГ±ГІГҐГ¬Г  ГіГ°Г ГўГ­ГҐГ­ГЁГ©
 {
     float x, y;
     if(abs(b)<0.000001 && abs(c)<0.000001)
@@ -148,7 +148,7 @@ struct Matrix
         }
     }
 
-    void SetBodyForSP(pair <float, float> v1, pair <float, float> v2) //отдельный ввод для поиска проекторов
+    void SetBodyForSP(pair <float, float> v1, pair <float, float> v2) //Г®ГІГ¤ГҐГ«ГјГ­Г»Г© ГўГўГ®Г¤ Г¤Г«Гї ГЇГ®ГЁГ±ГЄГ  ГЇГ°Г®ГҐГЄГІГ®Г°Г®Гў
     {
         height = 2;
         length = 2;
@@ -237,7 +237,7 @@ struct Matrix
         return true;
     }
 
-    static float Det(Matrix m) //определитель
+    static float Det(Matrix m) //Г®ГЇГ°ГҐГ¤ГҐГ«ГЁГІГҐГ«Гј
     {
         if(m.height != m.length)
         {
@@ -285,7 +285,7 @@ struct Matrix
         }
     }
 
-    static Matrix Trans(Matrix m) //транспонированная
+    static Matrix Trans(Matrix m) //ГІГ°Г Г­Г±ГЇГ®Г­ГЁГ°Г®ГўГ Г­Г­Г Гї
     {
         Matrix ans = Matrix();
         ans.height = m.length;
@@ -304,7 +304,7 @@ struct Matrix
         return ans;
     }
 
-    static Matrix Uni(Matrix m) //союзная
+    static Matrix Uni(Matrix m) //Г±Г®ГѕГ§Г­Г Гї
     {
         if(m.height != m.length)
         {
@@ -384,12 +384,12 @@ struct Matrix
         return ans;
     }
 
-    static Matrix Rev(Matrix m) //обратная
+    static Matrix Rev(Matrix m) //Г®ГЎГ°Г ГІГ­Г Гї
     {
         return Trans(Uni(m));
     }
 
-    static void HP(Matrix m) //характеристический полином
+    static void HP(Matrix m) //ГµГ Г°Г ГЄГІГҐГ°ГЁГ±ГІГЁГ·ГҐГ±ГЄГЁГ© ГЇГ®Г«ГЁГ­Г®Г¬
     {
         float d[9];
         for(int i=0; i<9; i++)
@@ -411,7 +411,7 @@ struct Matrix
         return;
     }
 
-    static void SV(Matrix m) //собственные вектора
+    static void SV(Matrix m) //Г±Г®ГЎГ±ГІГўГҐГ­Г­Г»ГҐ ГўГҐГЄГІГ®Г°Г 
     {
         float a0 = m.body[0][0];
         float b0 = m.body[0][1];
@@ -437,7 +437,7 @@ struct Matrix
         }
     }
 
-    static void SP(Matrix m) //собственные проекторы
+    static void SP(Matrix m) //Г±Г®ГЎГ±ГІГўГҐГ­Г­Г»ГҐ ГЇГ°Г®ГҐГЄГІГ®Г°Г»
     {
         float a0 = m.body[0][0];
         float b0 = m.body[0][1];
@@ -484,7 +484,7 @@ struct Matrix
         }
     }
 
-    static void US(Matrix m) //унитарность и самосопряженность
+    static void US(Matrix m) //ГіГ­ГЁГІГ Г°Г­Г®Г±ГІГј ГЁ Г±Г Г¬Г®Г±Г®ГЇГ°ГїГ¦ГҐГ­Г­Г®Г±ГІГј
     {
         if(Det(m) != 0 && Trans(m)==Rev(m))
             cout<<"unitarnaya"<<endl;
@@ -496,7 +496,7 @@ struct Matrix
             cout<<"NEsamosopryajonnaya"<<endl;
     }
 
-    static int Trace(Matrix m) //скалярное произведение
+    static int Trace(Matrix m) //Г±ГЄГ Г«ГїГ°Г­Г®ГҐ ГЇГ°Г®ГЁГ§ГўГҐГ¤ГҐГ­ГЁГҐ
     {
         if(m.height != m.length)
         {
