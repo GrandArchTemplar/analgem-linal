@@ -4,6 +4,8 @@ from numbers import Number
 
 
 class Matrix:
+    FORMATTER = str
+
     def __init__(self, a):
         if len(a) == 0 or len(a[0]) == 0:
             raise ValueError('not a valid matrix: length is 0')
@@ -14,6 +16,14 @@ class Matrix:
 
     def dim(self):
         return len(self.a), len(self.a[0])
+
+    def __eq__(self, other):
+        return self.a == other.a
+
+    @staticmethod
+    def one(n):
+        return Matrix([[1 if i == j else 0 for j in range(n)]
+                       for i in range(n)])
 
     # Task 1
     def __add__(self, other):
@@ -172,10 +182,22 @@ class Matrix:
         else:
             return []
 
+    # Task 6
+    def is_unitary(self):
+        if self.dim()[0] != self.dim()[1]:
+            return False
+        # Assuming we don't work with complex numbers,
+        # so it's just transpose instead of conjugate transpose
+        return self * self.trans() == Matrix.one(self.dim()[0])
+
+    def is_self_conjugated(self):
+        # Again, assuming we don't work with complex numbers
+        return self == self.trans()
+
     def __repr__(self):
         s = ''
         for row in self.a:
-            s += ' '.join(map(str, row))
+            s += ' '.join(map(Matrix.FORMATTER, row))
             s += '\n'
         return s
 
@@ -188,20 +210,35 @@ def read_matrix():
     return Matrix(a)
 
 
-m1 = read_matrix()
-# m2 = read_matrix()
-# print(m1 + m2)  # Task 1
-# print(m1 * m2)  # Task 1
+TASKS = [6, 7]
+if __name__ == '__main__':
+    m1 = read_matrix()
 
-# print(~m1)  # Task 2
-# print(m1 * ~m1)  # Correctness check, should be E
+    if 1 in TASKS:
+        m2 = read_matrix()
+        print(m1 + m2)  # Task 1
+        print(m1 * m2)  # Task 1
 
-# print(m1.characteristic_polynom())  # Task 3
+    if 2 in TASKS:
+        print(~m1)  # Task 2
+        print('Check:')
+        print(m1 * ~m1)  # Correctness check, should be E
 
-# ep = m1.eigenpairs()  # Task 4
-# for c, v in ep:
-#     print(c, v)
+    if 3 in TASKS:
+        print(m1.characteristic_polynom())  # Task 3
 
-proj = m1.projectors()  # Task 5
-for p in proj:
-    print(p)
+    if 4 in TASKS:
+        ep = m1.eigenpairs()  # Task 4
+        for c, v in ep:
+            print(c, v)
+
+    if 5 in TASKS:
+        proj = m1.projectors()  # Task 5
+        for p in proj:
+            print(p)
+
+    if 6 in TASKS:
+        uni = m1.is_unitary()
+        print('Унитарная' if uni else 'Не унитарная')
+        sc = m1.is_self_conjugated()
+        print('Самосопряженная' if sc else 'Не самосопряженная')
