@@ -1,1 +1,134 @@
+#include <iostream>
+#include <clocale>
+#include <cmath>
+#include <Windows.h>
+using namespace std;
+double ** create_matrix_double(int n, int m)
+{
+    double **A = new double *[n];
+    for(int i = 0; i<n;i++)
+    {
+        A[i] = new double [m];
+    }
+    return A;
+}
+void input_matrix_double(double **A, int n, int m) {
+    setlocale(0, "");
+    SetConsoleCP(866);
+    SetConsoleOutputCP(866);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << "Put there element with index(VVEDI ELEMENT) =" << i + 1 << j + 1 << endl;
+            cin >> A[i][j];
+        }
+    }
+}
+void output_matrix_double(double **A, int n, int m) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << A[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+    template <typename T> void TransponMatrix(T**matr, T**tMatr, int n){
+        for (int i=0;i<n;i++)
+            for (int j=0;j<n;j++)
+                tMatr[j][i] = matr[i][j];
+    }
+    bool equals(double **A, double **B, int n) {
+        int k;
+        k = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (A[i][j] == B[i][j]) {
+                    k += 1;
+                }
+            }
+        }
+        if (k == pow(n, 2))
+            return true;
+        else return false;
+    }
 
+void Get_matr(double **matr, int n, double **temp_matr, int indRow, int indCol)
+{
+    int ki = 0;
+    for (int i = 0; i < n; i++){
+        if(i != indRow){
+            for (int j = 0, kj = 0; j < n; j++){
+                if (j != indCol){
+                    temp_matr[ki][kj] = matr[i][j];
+                    kj++;
+                }
+            }
+            ki++;
+        }
+    }
+}
+double Det(double **matr, int n)
+{
+    int temp = 0;   //временная переменная для хранения определителя
+    int k = 1;      //степень
+    if(n < 1){
+        cout<<"Не верный размер матрицы!!!" << endl;
+        return 0;
+    }
+    else if (n == 1)
+        temp = matr[0][0];
+    else if (n == 2)
+        temp = matr[0][0] * matr[1][1] - matr[1][0] * matr[0][1];
+    else{
+        for(int i = 0; i < n; i++){
+            int m = n - 1;
+            double **temp_matr = new double * [m];
+            for(int j = 0; j < m; j++)
+                temp_matr[j] = new double [m];
+            Get_matr(matr, n, temp_matr, 0, i);
+            temp = temp + k * matr[0][i] * Det(temp_matr, m);
+            k = -k;
+        }
+    }
+    return temp;
+}
+    int main(){
+    setlocale(LC_CTYPE, "rus");
+    int n,m;
+    cout << "RAMZMER" << endl;
+    cin >> n >> m;
+    double **A = create_matrix_double(n,m);
+    double **At = create_matrix_double(n,m);
+    double **Ao = create_matrix_double(n,m);
+    double **AoItog = create_matrix_double(n,m);
+    input_matrix_double(A,n,m);
+    TransponMatrix(A,At,n);
+    double det = Det(A, n);
+        if(det){
+            for(int i = 0; i < n; i++){
+                for(int j = 0; j < n; j++){
+                    int x = n - 1;
+                    double **temp_matr = new double * [x];
+                    for(int k = 0; k < x; k++)
+                        temp_matr[k] = new double[x];
+                    Get_matr(A, n, temp_matr, i, j);
+                    Ao[i][j] = pow(-1.0, i + j + 2) * Det(temp_matr, x) / det;
+                }
+            }
+        }
+        TransponMatrix(Ao,AoItog,n);
+        if (equals(A, At, n) == 1) {
+            cout << "Samosopryazhonnaya" << endl;
+        }
+        else
+            cout << "Nesamosopryazhonnaya" << endl;
+        if (det == 0) {
+            cout << "NEUNITARNAYA" << endl;
+        }
+        if (det != 0) {
+            if (equals(A,AoItog,n) == 1){
+            cout << "Unitarnaya" << endl;
+        }
+            else {
+                cout << "Neunitarnaya" << endl;}
+        }
+}
