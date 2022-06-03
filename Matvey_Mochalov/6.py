@@ -96,7 +96,7 @@ def transpose(M):
 def END(A):
     M = [[0 for i in range(len(A))] for i in range(len(A))]
     if det(A) == 0:
-        print("Матрица не обратимаFFFFFFFFFFFFFF ")
+        print("")
     else:
         M = [[0 for i in range(len(A))] for i in range(len(A))]
         P = transpose(minor_matr(A))
@@ -104,6 +104,11 @@ def END(A):
             for j in range(len(A)):
                 M[i][j] = P[i][j]/det(A)
     return M
-print(END(A))
-
-
+if END(A) == transpose(A):
+    print('Унитарная')
+else:
+    print("Неунитарная")
+if transpose(A) == A:
+    print("самосопряженная")
+else:
+    print("не самосопряженная")
