@@ -7,7 +7,7 @@ class MyMatrix:
         print(
             "Введите кол-во строк (целое число) в матрице, нажмите eneter, затем введите строки матрицы, разделяя столбцы пробелом, а строки enter-ом:",
             file=output)
-        n = int(input.readline().strip())
+        n = int(input.readline())
         matrix = []
         matrix.append(list(map(float, input.readline().strip().split())))
         m = len(matrix[0])

@@ -1,4 +1,4 @@
-from BogdanaKlinskaia.SquareMatrix import SquareMatrix
+from SquareMatrix import SquareMatrix
 
 if __name__ == '__main__':
     m = SquareMatrix.read_matrix(n=2)

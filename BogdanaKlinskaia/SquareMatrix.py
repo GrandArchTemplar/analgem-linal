@@ -10,7 +10,7 @@ class SquareMatrix(MyMatrix):
     def read_matrix(n: int = None, input=sys.stdin, output=sys.stdout, erroutput=sys.stderr):
         if n is None:
             print(
-                "Введите кол-во строк (целое число) в матрице, нажмите eneter, затем введите строки матрицы, разделяя столбцы пробелом, а строки enter-ом:",
+                "Введите кол-во строк (целое число) в квадратной матрице, нажмите eneter, затем введите строки матрицы, разделяя столбцы пробелом, а строки enter-ом:",
                 file=output)
             n = int(input.readline().strip())
         else:
@@ -74,6 +74,17 @@ class SquareMatrix(MyMatrix):
         assert t.column_count == t.str_count, "Матрица должна быть квадратной"
         s = t.inv()
         return [MyMatrix(t.get_column(i)) * MyMatrix([s.get_row(i)]) for i in range(t.str_count)]
+
+    def isUnitar(self) -> bool:
+        try:
+            inv = self.inv()
+        except ArithmeticError:
+            return False
+        return inv.matrix == self.matrix
+
+    def isSimmetric(self) -> bool:
+        t = self.transpose()
+        return t.matrix == self.matrix
 
 
 if __name__ == '__main__':
