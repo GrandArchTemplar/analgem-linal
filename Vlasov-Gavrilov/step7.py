@@ -77,7 +77,8 @@ def print_lst_b():
     """
     lst_b = find_lst_b()
     for i, value in enumerate(lst_b):
-        value = " ".join(map(str, rounds_numbers(value)))
+        value = " ".join(map(str, rounds_numbers(
+            rounds_numbers(value))))
         print(f"b{i + 1}: {value}")
 
 
