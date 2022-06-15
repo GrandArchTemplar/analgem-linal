@@ -1,0 +1,69 @@
+def vvod_matrichek(name="1"):
+    """
+    Считывание матрицы и запись в список
+    :return: Сформированный список
+    """
+    n = int(input(f"Введите количество строк {name} матрицы (числом. Только ОДНИМ числом, пожалуйста): "))
+    lst = []
+    for i in range(n):
+        lst.append(list(map(int, input(f"Введите строку номер {i + 1} (через пробел): ").split())))
+    return lst
+
+def slozhenie_spisOchkov(lst1, lst2):
+    """
+    Суммирование 2ух вложенных списков
+    :param lst1: 1ый входной список
+    :param lst2: 2ой входной список
+    :return: Конечный вложенный список
+    """
+    n1, m1, n2, m2 = len(lst1), len(lst1[0]), len(lst2), len(lst2[0])
+    if n1 != n2 or m1 != m2:
+        return "Сложение невозможно. Как сказал бы Александр Сергеевич Чирцев: вот до чего доводит современное образование, даже калькулятором пользоваться не умеют. Согласуйте размерность"
+    else:
+        LST = []
+        for i in range(n1):
+            lst = []
+            for j in range(m1):
+                lst.append(lst1[i][j] + lst2[i][j])
+            LST.append(lst)
+        return LST
+
+def umnozhenie_spisOchkov(lst1, lst2):
+    """
+    Умножение двух вложенных списков
+    :param lst1: 1ый входной список
+    :param lst2: 2ой входной список
+    :return: Конечный вложенный список
+    """
+    n1, m1, n2, m2 = len(lst1), len(lst1[0]), len(lst2), len(lst2[0])
+    if m1 != n2:
+        return "Перемножение невозможно. Павел Андреевич, Вы либо крестик снимите, либо матрицы согласуйте"
+    LST = []
+    for i in range(n1):
+        lst = []
+        for j in range(m2):
+            value = 0
+            for k in range(m1):
+                value += lst1[i][k] * lst2[k][j]
+            lst.append(value)
+        LST.append(lst)
+    return LST
+
+def perevodim_spisOchki_v_matrichki(lst, name="Результат умножения: "):
+    """
+    Делает матрицу из вложенного списка
+    :param lst: Входной список
+    :return: Матрица
+    """
+    if type(lst) == str:
+        print(lst)
+    else:
+        print(name)
+        for line in lst:
+            print(*line)
+
+
+l1 = vvod_matrichek()
+l2 = vvod_matrichek(name="2")
+perevodim_spisOchki_v_matrichki(umnozhenie_spisOchkov(l1, l2))
+perevodim_spisOchki_v_matrichki(slozhenie_spisOchkov(l1, l2), name="Результат сложения: ")
