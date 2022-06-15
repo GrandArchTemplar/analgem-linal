@@ -1,0 +1,77 @@
+from tabulate import tabulate
+
+
+def input_matrix():
+    n = input('\nР’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ РІРµРєС‚РѕСЂРѕРІ (Р±РµР· РїСЂРѕР±РµР»РѕРІ): ')
+    if n.isdigit() and int(n) != 0:
+        print('Р’РІРµРґРёС‚Рµ n Р›РќР— РІРµРєС‚РѕСЂРѕРІ СЂР°Р·РјРµСЂР° n РїРѕСЃС‚СЂРѕС‡РЅРѕ: Р·РЅР°С‡РµРЅРёСЏ РІ СЃС‚СЂРѕРєРµ С‡РµСЂРµР· РїСЂРѕР±РµР»С‹, РїРµСЂРµС…РѕРґ РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ СЃС‚СЂРѕРєСѓ С‡РµСЂРµР· enter:')
+        try:
+            matrix = [[i for i in list(map(float, input().split()))] for _ in range(int(n))]
+            k = 0
+            for i in matrix:
+                if len(i) != max([len(i) for i in matrix]):
+                    k += 1
+            if k != 0:
+                print('РЎС‚СЂРѕРєРё СЂР°Р·РЅРѕР№ РґР»РёРЅС‹. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·!\n')
+                input_matrix()
+            else:
+                if len(matrix) != len(matrix[0]) != n:
+                    print(
+                        'РЎРѕСЂРё, РјС‹ РёС‰РµРј РѕР±СЂР°С‚РЅС‹Рµ РјР°С‚СЂРёС†С‹ С‚РѕР»СЊРєРѕ РґР»СЏ РєРІР°РґСЂР°С‚РЅС‹С…. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·!\n')
+                    input_matrix()
+                else:
+                    return matrix
+        except ValueError:
+            print('Р§С‚Рѕ-С‚Рѕ РїРѕС€Р»Рѕ РЅРµ С‚Р°Рє... РњС‹ РЅРµ СѓРјРµРµРј СЂР°Р±РѕС‚Р°С‚СЊ СЃ РЅРµС‡РёСЃР»РѕРІС‹РјРё РІРµРєС‚РѕСЂР°РјРё. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·!\n')
+            input_matrix()
+    else:
+        print('Р’РІРµРґРµРЅРѕ РЅРµ С†РµР»РѕРµ РїРѕР»РѕР¶РёС‚РµР»СЊРЅРѕРµ С‡РёСЃР»Рѕ, СЌС‚Рѕ РЅРµ Р»РѕРіРёС‡РЅРѕ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·!\n')
+        input_matrix()
+
+
+def minor(matrix, i, j):
+    return [line[:j] + line[j + 1:] for line in (matrix[:i] + matrix[i + 1:])]
+
+
+def determinant(matrix):
+    if len(matrix) == 1:
+        return matrix[0][0]
+    else:
+        sign = 1
+        result = 0
+        for j in range(len(matrix)):
+            result += sign * matrix[0][j] * determinant(minor(matrix, 0, j))
+            sign *= -1
+        return result
+
+
+def orthogonalization():
+    matrixA = input_matrix()
+    n = len(matrixA[0])
+    matrixB = [[0 for _ in range(n)] for _ in range(n)]
+    if determinant(matrixA) == 0:
+        print('Р’РµРєС‚РѕСЂs РЅРµ Р›РќР—. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·!\n')
+        orthogonalization()
+    else:
+        matrixB[0] = matrixA[0]
+        for i in range(1, n):
+            matrixB[i] = matrixA[i]
+            for j in range(0, i):
+                scalar_AB = 0
+                scalar_BB = 0
+                proj = [0 for _ in range(n)]
+                for k in range(n):
+                    scalar_AB += matrixA[i][k] * matrixB[j][k]
+                    scalar_BB += matrixB[j][k] * matrixB[j][k]
+                for k in range(n):
+                    proj[k] = (scalar_AB / scalar_BB) * matrixB[j][k]
+                    matrixB[i][k] -= proj[k]
+        print('\nРћС‚РІРµС‚:\n' + tabulate(matrixB, tablefmt="plain"))
+
+
+orthogonalization()
+
+answer = input('\nР•СЃР»Рё С…РѕС‚РёС‚Рµ РїСЂРѕРґРѕР»Р¶РёС‚СЊ, РІРІРµРґРёС‚Рµ Y\n')
+if answer == 'Y':
+    print()
+    orthogonalization()
