@@ -1,0 +1,112 @@
+import copy
+#ввод матрицы
+print("введите количество строк")
+a=int(input())
+print("введите количество столбцов")
+b=int(input())
+
+
+def ph(Z):
+    for i in range(0, len(Z)):
+        print(Z[i])
+    return None
+
+ZZ= []
+for i in range (0,a):
+    print(f"введите {i+1} строку")
+    strk = []
+    for i in range (0, b):
+        print(f"введите {i + 1} число строки")
+        cifr=float(input())
+        strk.append(cifr)
+    ZZ.append(strk)
+
+def trans(A):
+    Atr= []
+    for i in range (0, a):
+        strk1=[]
+        for j in range(0,b):
+            strk1.insert(j+1,A[j][i])
+        Atr.append(strk1)
+    return Atr
+
+def minor( A, i, j ):
+    M = copy.deepcopy(A)  # копирование!
+    del M[i]
+    for i in range( len( A[0] ) - 1 ):
+        del M[i][j]
+    return M
+
+def det(A):
+    m = len(A)
+    n = len(A[0])
+    if m != n:
+        return None
+    if n == 1:
+        return A[0][0]
+    signum = 1
+    determinant = 0
+    # разложение по первой строке
+    for j in range(n):
+        determinant += A[0][j] * signum * det(minor(A, 0, j))
+        signum *= -1
+    return determinant
+
+def ad(A):
+    AD= []
+    for i in range(0, len(A)):
+        strc = []
+        for j in range(0, len(A[i])):
+            g = (-1)**(i+j+2)*det(minor(A,i,j))
+            strc.append(g)
+        AD.append(strc)
+    return AD
+
+def OM(A):
+    T=trans(ad(A))
+    OM = []
+    for i in range(0,len(A)):
+        h = []
+        for j in range(0, len(A[i])):
+            g = T[i][j]/det(A)
+            h.append(g)
+        OM.append(h)
+    return OM
+
+def c_t(A, B):
+    c = 1
+    for i in range(0, len(A[0])):
+        for j in range(0, len(A)):
+            if A[i][j] == B[i][j]:
+                c = c*1
+            else:
+                c = c*0
+
+    if c == 1:
+        a = "самосопряженная"
+    else:
+        a = "несамосопряженная"
+    return a
+
+def c_u(A, B):
+    c = 1
+    for i in range(0, len(A[0])):
+        for j in range(0, len(A)):
+            if A[i][j] == B[i][j]:
+                c = c*1
+            else:
+                c = c*0
+
+    if c == 1:
+        print("унитарная")
+    else:
+        print("неунитарная")
+    return None
+ph(ZZ)
+if a!= b:
+    print("матрица не квадратная(")
+elif det(ZZ) == 0:
+    print(f"определитель 0 и матричка не унитарная, а так же {c_t(ZZ, trans(ZZ))}")
+else:
+    print(c_t(ZZ, trans(ZZ)))
+    c_u(ZZ, OM(ZZ))
