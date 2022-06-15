@@ -1,0 +1,63 @@
+def reading_matrix(): 
+    """ 
+    Считываем матрицу и записываем ее в двумерный список, в комментариях шутка про метеорологов 
+    :return: Сформированный список и его длинну 
+    """ 
+    LSIT = [] 
+    for i in range(3): 
+        lsit = [] 
+        lsit_val = list(map(float, input(f"i = {i + 1}: ").split()))[:3] # что гворят метеорологи, когда умирает их коллега? - сегодня минус один 
+        for j in range(3): 
+            value = lsit_val[j] 
+            lsit.append(value if value % 1 != 0.0 else int(value)) 
+        LSIT.append(lsit) 
+    return LSIT 
+ 
+ 
+def print_matrix(lsit): 
+    """ 
+    Выводит матрицу 
+    :param lsit: Входной двумерный список 
+    """ 
+    print("Матрица супер, выглдяит вот так:") 
+    lsit_len = [] 
+    for line_lsit in lsit: 
+        for value in line_lsit: 
+            lsit_len.append(len(str(value))) 
+    max_len = max(lsit_len) 
+    for i in range(3): 
+        print(f"i = {i + 1}:", *list(map("{{:>{length}}}".format(length=max_len).format, lsit[i]))) 
+ 
+ 
+def find_charact(lsit): 
+    """ 
+    Ищем, находим и наконец выводим характеристическое уравнение для матрицы 3x3 
+    :param lsit: Входной двумерный список 
+    """ 
+    round_up = int(input("Куда едем?? В плане, до какого знака округляем?: ")) 
+    a = - 1 
+    b = + lsit[0][0] + lsit[1][1] + lsit[2][2] 
+    c = - lsit[0][0] * lsit[1][1] - lsit[0][0] * lsit[2][2] - lsit[1][1] * lsit[2][2] \ 
+        + lsit[0][1] * lsit[1][0] + lsit[0][2] * lsit[2][0] + lsit[1][2] * lsit[2][1] 
+    d = + lsit[0][0] * lsit[1][1] * lsit[2][2] + lsit[0][1] * lsit[1][2] * lsit[2][0] + lsit[0][2] * lsit[1][0] * lsit[2][1] \ 
+        - lsit[0][2] * lsit[1][1] * lsit[2][0] - lsit[1][2] * lsit[0][0] * lsit[2][1] - lsit[0][1] * lsit[2][2] * lsit[1][0] 
+    print("Так так, получаем это:") 
+    i = 0 
+    for value in a, b, c, d: 
+        value = round(value, round_up) if value % 1 != 0.0 else int(value) 
+        if value == 0: 
+            continue 
+        elif i == 0: 
+            print(f"- \u03BB\u00B3", end=" ") 
+        elif i == 1: 
+            print(f"- {abs(value)}\u03BB\u00B2", end=" ") if value < 0 else print(f"+ {value}\u03BB\u00B2", end=" ") 
+        elif i == 2: 
+            print(f"- {abs(value)}\u03BB", end=" ") if value < 0 else print(f"+ {value}\u03BB", end=" ") 
+        else: 
+            print(f"- {abs(value)}", end=" ") if value < 0 else print(f"+ {value}", end=" ") 
+        i += 1 
+ 
+ 
+matrix = reading_matrix() 
+print_matrix(matrix) 
+find_charact(matrix)
