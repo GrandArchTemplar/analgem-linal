@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 using namespace std;
-
+// МЕНЯТЬ РАЗМЕР МАТРИЦЫ ТУТ!!!
 #define N 3
 #define M 3
 double A[N][M];                 //Массив для A
@@ -111,4 +111,3 @@ int main() {
 
     system("pause");
 
-}
