@@ -1,0 +1,114 @@
+#include <iostream>
+#include <math.h>
+#include <stdlib.h>
+
+using namespace std;
+
+#define N 3
+#define M 3
+double A[N][M];                 //Массив для A
+double U[N][M] = { 0 };         //U с N значениями
+double V[N][M] = { 0 };         //Функция V с N значениям;
+double temp[M];
+
+// скалярное произведение
+double scalar(double* a, double* b) {
+    double P = 0;
+    for (int j = 0; j < M; j++) {
+        P += a[j] * b[j];
+    }
+    return P;
+
+}
+
+
+int main() {
+
+    //Заполняем массив A
+
+    cout << "Matrix A: \n";
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            cout << "Element A[" << i << "," << j << "]: ";
+            cin >> A[i][j];
+        }
+    }
+
+
+    //Вывод матриц:
+    cout << "Matrix A:" << endl;
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            cout << A[i][j] << "  ";
+        }
+        cout << endl;
+    }
+
+
+    //Начальная иттерация:
+
+    for (int i = 0; i < M; i++) {
+        U[0][i] = (A[0][i]);               //U[0]
+    }
+    for (int i = 0; i < M; i++) {
+        V[0][i] = U[0][i] * (1 / scalar(U[0], U[0]));    //V[0]
+    }
+
+
+
+
+    int count = 1; //Счетчик переменных для которых уже найдены первые значения
+    int n = 0;
+    double t;
+
+
+    do {
+
+        for (int i = 0; i < N; i++) {
+            temp[i] = 0;
+        }
+        //U_i
+        for (int j = 0; j <= count - 1; j++) {
+            t = scalar(A[count], V[j]); //Получили c[i,j]
+
+            for (int i = 0; i < N; i++) {
+                temp[i] = temp[i] + (t*V[j][i]); //Получили c[i,j]*v[k]
+
+            }
+
+        }
+
+
+
+        //Нашли U
+        for (int i = 0; i < M; i++) {
+            U[count][i] = A[count][i] - temp[i];
+        }
+
+
+
+
+        //V_[i]
+        for (int i = 0; i < N; i++) {
+            V[count][i] = (1 / sqrt(scalar(U[count], U[count])))*(U[count][i]);
+        }
+
+        n++;
+        count++;
+
+    } while (count < N);
+
+
+    /*******************************PRINT*******************************/
+    cout << "\n\n";
+    cout<< "Matrix U:"<<endl;
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            cout  << U[i][j] << "   " ;
+        }
+        cout<< endl;
+    }
+
+    system("pause");
+
+}
