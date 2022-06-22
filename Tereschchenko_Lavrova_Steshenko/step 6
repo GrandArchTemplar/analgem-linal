@@ -1,0 +1,134 @@
+#
+include < iostream > #include < clocale > #include < cmath > #include < Windows.h >
+  using namespace std;
+double * * create_matrix_double(int k, int s) {
+  double * * N = new double * [k];
+  for (int i = 0; i < k; i++) {
+    N[i] = new double[s];
+  }
+  return N;
+}
+void input_matrix_double(double * * N, int k, int s) {
+  setlocale(0, "");
+  SetConsoleCP(866);
+  SetConsoleOutputCP(866);
+  for (int i = 0; i < k; i++) {
+    for (int j = 0; j < s; j++) {
+      cout« "Put there element with index(UKAZITE ELEMENT) ="«
+      i + 1« j + 1« endl;
+      cin» N[i][j];
+    }
+  }
+}
+void output_matrix_double(double * * N, int k, int s) {
+  for (int i = 0; i < k; i++) {
+    for (int j = 0; j < s; j++) {
+      cout« N[i][j]«
+      " ";
+    }
+    cout« endl;
+  }
+}
+template < typename T > void TransponMatrix(T * * matr, T * * tMatr, int k) {
+  for (int i = 0; i < k; i++)
+    for (int j = 0; j < k; j++)
+      tMatr[j][i] = matr[i][j];
+}
+bool equals(double * * N, double * * B, int k) {
+  int n;
+  n = 0;
+  for (int i = 0; i < k; i++) {
+    for (int j = 0; j < k; j++) {
+      if (N[i][j] == B[i][j]) {
+        n += 1;
+      }
+    }
+  }
+  if (n == pow(k, 2))
+    return true;
+  else return false;
+}
+void Get_matr(double * * matr, int k, double * * temp_matr, int indRow, int indCol) {
+  int ki = 0;
+  for (int i = 0; i < k; i++) {
+    if (i != indRow) {
+      for (int j = 0, kj = 0; j < k; j++) {
+        if (j != indCol) {
+          temp_matr[ki][kj] = matr[i][j];
+          kj++;
+        }
+      }
+      ki++;
+    }
+  }
+}
+double Det(double * * matr, int k) {
+  int temp = 0;
+  int n = 1;
+  if (k < 1) {
+    cout« "Не верный размер матрицы!"«
+    endl;
+    return 0;
+  } else if (k == 1)
+    temp = matr[0][0];
+  else if (k == 2)
+    temp = matr[0][0] * matr[1][1] - matr[1][0] * matr[0][1];
+  else {
+    for (int i = 0; i < k; i++) {
+      int s = k - 1;
+      double * * temp_matr = new double * [s];
+      for (int j = 0; j < s; j++)
+        temp_matr[j] = new double[s];
+      Get_matr(matr, k, temp_matr, 0, i);
+      temp = temp + n * matr[0][i] * Det(temp_matr, s);
+      n = -n;
+    }
+  }
+  return temp;
+}
+int main() {
+  setlocale(LC_CTYPE, "rus");
+  int k, s;
+  cout« "Размер:"«
+  endl;
+  cin» k» s;
+  double * * N = create_matrix_double(n, m);
+  double * * Nt = create_matrix_double(n, m);
+  double * * No = create_matrix_double(n, m);
+  double * * AoItog = create_matrix_double(n, m);
+  input_matrix_double(N, k, s);
+  TransponMatrix(N, Nt, k);
+  double det = Det(N, k);
+  if (det) {
+    for (int i = 0; i < k; i++) {
+      for (int j = 0; j < k; j++) {
+        int x = k - 1;
+        double * * temp_matr = new double * [x];
+        for (int n = 0; n < x; n++)
+          temp_matr[n] = new double[x];
+        Get_matr(N, k, temp_matr, i, j);
+        Ao[i][j] = pow(-1.0, i + j + 2) * Det(temp_matr, x) / det;
+      }
+    }
+  }
+  TransponMatrix(Ao, AoItog, n);
+  if (equals(N, Nt, k) == 1) {
+    cout« "Самосопряженная"«
+    endl;
+  } else
+    cout« "Несамомопряженная"«
+  endl;
+  if (det == 0) {
+    cout« "NEUNITARNAYA"«
+    endl;
+  }
+  if (det != 0) {
+    if (equals(N, AoItog, k) == 1) {
+      cout« "Унитарная"«
+      endl;
+    } else {
+      cout« "Неунитарная"«
+      endl;
+    }
+  }
+}
