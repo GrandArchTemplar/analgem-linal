@@ -1,0 +1,78 @@
+#
+include < iostream > #include < math.h > #include < stdlib.h >
+  using namespace std;#
+define N 3# define M 3
+double A[N][M];
+double U[N][M] = {
+  0
+};
+double V[N][M] = {
+  0
+};
+double temp[M];
+double scalar(double * a, double * b) {
+  double P = 0;
+  for (int j = 0; j < M; j++) {
+    P += a[j] * b[j];
+  }
+  return P;
+}
+int main() {
+    cout« "Matrix A: \n";
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < M; j++) {
+        cout« "Element A["«
+        i« ","«
+        j« "]: ";
+        cin» A[i][j];
+      }
+    }
+    cout« "Matrix A:"«
+    endl;
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < M; j++) {
+        cout« A[i][j]«
+        " ";
+      }
+      cout« endl;
+    }
+    for (int i = 0; i < M; i++) {
+      U[0][i] = (A[0][i]); //U[0] 
+    }
+    for (int i = 0; i < M; i++) {
+      V[0][i] = U[0][i] * (1 / scalar(U[0], U[0])); //V[0] 
+    }
+    int count = 1;
+    int n = 0;
+    double t;
+    do {
+      for (int i = 0; i < N; i++) {
+        temp[i] = 0;
+      }
+      //U_i 
+      for (int j = 0; j <= count - 1; j++) {
+        t = scalar(A[count], V[j]);
+        for (int i = 0; i < N; i++) {
+          temp[i] = temp[i] + (t * V[j][i]);
+        }
+      }
+      for (int i = 0; i < M; i++) {
+        U[count][i] = A[count][i] - temp[i];
+      }
+      for (int i = 0; i < N; i++) {
+        V[count][i] = (1 / sqrt(scalar(U[count], U[count]))) * (U[count][i]);
+      }
+      n++;
+      count++;
+    } while (count < N);
+    cout« "\n\n";
+    cout« "Matrix U:"«
+    endl;
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < M; j++) {
+        cout« U[i][j]«
+        " ";
+      }
+      cout« endl;
+    }
+    system("pause");
